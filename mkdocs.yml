@@ -1,0 +1,78 @@
+site_name: Commander
+site_url: https://ozcanyarimdunya.github.io/commander/
+site_author: Özcan Yarımdünya
+site_description: Commander
+repo_name: ozcanyarimdunya/commander
+repo_url: https://github.com/ozcanyarimdunya/commander
+copyright: Copyright &copy; 2022 <a href="https://yarimdunya.com" target="_blank">Özcan Yarımdünya<a/>
+
+theme:
+  name: material
+  custom_dir: docs/theme
+  palette:
+    - scheme: slate
+      primary: black
+      accent: black
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+  favicon: assets/images/favicon.ico
+  icon:
+    logo: svg/favicon
+  features:
+    - navigation.top
+    - search.highlight
+    - search.share
+    - search.suggest
+    - content.tabs.link
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - extra
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tasklist
+  - pymdownx.details
+  - pymdownx.emoji
+  - pymdownx.magiclink
+  - mdx_include:
+      base_path: docs/tutorial
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - markdown.extensions.codehilite:
+      guess_lang: false
+  - toc:
+      permalink: "¤"
+
+extra:
+  social:
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/ozcanyarimdunya
+      name: LinkedIn
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/ozcanyarimdunya
+      name: Twitter
+    - icon: fontawesome/brands/github
+      link: https://github.com/ozcanyarimdunya
+      name: Github
+    - icon: material/gmail
+      link: mailto:ozcanyd@gmail.com
+      name: Mail
+    - icon: fontawesome/brands/stack-overflow
+      link: https://stackoverflow.com/users/3117592/ozcanyarimdunya
+      name: Stack Overflow

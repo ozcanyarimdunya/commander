@@ -1,0 +1,2 @@
+mdx-include==1.4.1
+mkdocs-material==8.2.9
