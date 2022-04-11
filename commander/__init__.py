@@ -1,6 +1,6 @@
 from .core import Command
-from .core import CommandError
 from .core import Commander
+from .core import CommandError
 
 __all__ = [
     "Command",

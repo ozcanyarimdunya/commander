@@ -1,4 +1,5 @@
-from commander import Command, Commander
+from commander import Command
+from commander import Commander
 
 
 class CurrencyCommand(Command):
