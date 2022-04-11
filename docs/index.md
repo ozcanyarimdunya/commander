@@ -11,5 +11,5 @@ A very simple tool to create beautiful console application.
 ## Installation
 
 ```shell
-pip install py-commander
+pip install commander-py
 ```

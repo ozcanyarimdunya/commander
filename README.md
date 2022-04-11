@@ -11,7 +11,11 @@ A very simple tool to create beautiful console application.
 ## Installation
 
 ```shell
-pip install py-commander
+pip install commander-py
 ```
+
+## Example
+
+![gif](docs/images/money.gif)
 
 For more checkout [documentation.](https://ozcanyarimdunya.github.io/commander/)
