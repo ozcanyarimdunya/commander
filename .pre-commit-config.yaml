@@ -1,4 +1,4 @@
-exclude: '.git|.tox|.cfg'
+exclude: '.git|.tox'
 default_stages: [ commit ]
 fail_fast: false
 
