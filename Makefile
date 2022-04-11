@@ -12,7 +12,7 @@ build:
 	@mkdocs build
 
 install:
-	@pip install -r requirements.txt
+	@pip install -r dev-requirements.txt
 
 serve:
 	@mkdocs serve

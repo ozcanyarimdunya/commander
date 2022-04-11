@@ -1,5 +1,4 @@
-from commander import Command
-from commander import Commander
+from commander import Command, Commander
 
 
 class CurrencyCommand(Command):
@@ -35,7 +34,7 @@ class CurrencyCommand(Command):
             self.red("You're luck!")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     commander = Commander(description="Commander", version="0.1.0")
     commander.register(CurrencyCommand)
     commander.run()

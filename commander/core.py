@@ -14,7 +14,9 @@ class HelpFormatter(argparse.HelpFormatter):
         super(HelpFormatter, self).start_section(heading=heading)
 
     def add_usage(self, usage, actions, groups, prefix=None):
-        super(HelpFormatter, self).add_usage(usage, actions, groups, prefix=color.bold("USAGE: "))
+        super(HelpFormatter, self).add_usage(
+            usage, actions, groups, prefix=color.bold("USAGE: ")
+        )
 
     def add_argument(self, action):
         if not hasattr(action, "subcommands"):
@@ -110,8 +112,7 @@ class Commander(Command):
         self._commands = []
 
         super(Commander, self).__init__(
-            description=self._description,
-            formatter_class=HelpFormatter
+            description=self._description, formatter_class=HelpFormatter
         )
         self.prog = color.underline(self.prog)
 
@@ -138,7 +139,9 @@ class Commander(Command):
 
         try:
             next(it for it in self._commands if it.name == command.name)
-            raise CommandError("A command with name '{}' already exists.".format(command.name))
+            raise CommandError(
+                "A command with name '{}' already exists.".format(command.name)
+            )
         except StopIteration:
             pass
 

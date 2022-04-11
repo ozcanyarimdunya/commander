@@ -6,6 +6,4 @@ __all__ = [
     "Command",
     "Commander",
     "CommandError",
-    "__version__",
 ]
-__version__ = "0.1.0"
