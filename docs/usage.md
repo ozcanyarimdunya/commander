@@ -3,7 +3,7 @@
 ## Sample usage
 
 ```python
-{!sample.py!}
+{!docs/tutorial/sample.py!}
 ```
 
 ### Output

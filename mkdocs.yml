@@ -46,8 +46,7 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.emoji
   - pymdownx.magiclink
-  - mdx_include:
-      base_path: docs/tutorial
+  - mdx_include
   - pymdownx.snippets:
       check_paths: true
   - pymdownx.tabbed:
