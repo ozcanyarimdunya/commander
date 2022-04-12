@@ -1,6 +1,6 @@
 # Getting started
 
-A very simple tool to create beautiful console application.
+A very simple tool to create beautiful console application by using native argparse.
 
 | Project       | Tabler                                       |
 |---------------|----------------------------------------------|
