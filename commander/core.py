@@ -34,9 +34,7 @@ class HelpFormatter(argparse.HelpFormatter):
 
 class Parser(argparse.ArgumentParser):
     def __init__(self, *args, **kwargs):
-        kwargs.update(
-            formatter_class=kwargs.get("formatter_class", HelpFormatter),
-        )
+        kwargs.update(formatter_class=kwargs.get("formatter_class", HelpFormatter))
         super().__init__(*args, **kwargs)
 
 
@@ -155,9 +153,7 @@ class Commander(Command):
 
         try:
             next(it for it in self._commands if it.name == command.name)
-            raise CommandError(
-                f"A command with name '{command.name}' already exists.",
-            )
+            raise CommandError(f"A command with name '{command.name}' already exists.")
         except StopIteration:
             pass
 
@@ -169,9 +165,7 @@ class Commander(Command):
         self.handle(argv, args.command)
 
     def handle(self, argv, command):
-        command_class = next(
-            (cmd for cmd in self._commands if cmd.name == command),
-        )
+        command_class = next(cmd for cmd in self._commands if cmd.name == command)
         description = command_class.description
         prog = "{} {}".format(
             color.underline(self.prog),
