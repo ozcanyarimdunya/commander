@@ -16,6 +16,6 @@ pip install commander-py
 
 ## Example
 
-![gif](docs/images/money.gif)
+![gif](docs/images/sample.gif)
 
 For more checkout [documentation.](https://ozcanyarimdunya.github.io/commander/)
