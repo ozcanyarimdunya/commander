@@ -3,9 +3,9 @@
 ## Sample usage
 
 ```python
-{!money.py!}
+{!sample.py!}
 ```
 
 ### Output
 
-![money.gif](./images/money.gif)
+![sample.gif](./images/sample.gif)

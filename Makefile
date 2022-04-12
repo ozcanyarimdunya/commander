@@ -4,26 +4,29 @@ help:
 	@echo "help   : Show this help message"
 	@echo "build  : Build mkdocs"
 	@echo "install: Install dependencies"
-	@echo "serve  : Run server"
-	@echo "publish: Deploy to GitHub pages"
-	@echo "package: Deploy to pypi"
+	@echo "lint   : Run server"
+	@echo "serve  : Run pre-commit hooks"
+	@echo "gh     : Deploy to GitHub pages"
+	@echo "pypi   : Deploy to pypi"
 
 build:
-	@mkdocs build
+	@poetry run mkdocs build
 
 install:
-	@pip install -r dev-requirements.txt
+	@pip install poetry
+	@poetry install
+	@poetry run pre-commit install
 
+lint:
+	@poetry run pre-commit run -a
 serve:
-	@mkdocs serve
+	@poetry run mkdocs serve
 
-publish:
-	@mkdocs gh-deploy --clean --force
+gh:
+	@poetry run mkdocs gh-deploy --clean --force
 
-package:
-	@rm -rf dist
-	@rm -rf *.egg-info
-	@python setup.py sdist
-	@twine upload --skip-existing dist/*
+pypi:
+	@poetry build
+	@poetry publish
 	@rm -rf dist
 	@rm -rf *.egg-info

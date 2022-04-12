@@ -11,16 +11,14 @@ class CommandError(Exception):
 class HelpFormatter(argparse.HelpFormatter):
     def start_section(self, heading):
         heading = color.bold(heading.upper())
-        super(HelpFormatter, self).start_section(heading=heading)
+        super().start_section(heading=heading)
 
     def add_usage(self, usage, actions, groups, prefix=None):
-        super(HelpFormatter, self).add_usage(
-            usage, actions, groups, prefix=color.bold("USAGE: ")
-        )
+        super().add_usage(usage, actions, groups, prefix=color.bold("USAGE: "))
 
     def add_argument(self, action):
         if not hasattr(action, "subcommands"):
-            super(HelpFormatter, self).add_argument(action)
+            super().add_argument(action)
             return
 
         subcommands = getattr(action, "subcommands", list())
@@ -31,13 +29,15 @@ class HelpFormatter(argparse.HelpFormatter):
                 dest="",
                 help=description,
             )
-            super(HelpFormatter, self).add_argument(_action)
+            super().add_argument(_action)
 
 
 class Parser(argparse.ArgumentParser):
     def __init__(self, *args, **kwargs):
-        kwargs.update(formatter_class=kwargs.get("formatter_class", HelpFormatter))
-        super(Parser, self).__init__(*args, **kwargs)
+        kwargs.update(
+            formatter_class=kwargs.get("formatter_class", HelpFormatter),
+        )
+        super().__init__(*args, **kwargs)
 
 
 class Command(object):
@@ -83,23 +83,38 @@ class Command(object):
         sys.stdout.write(text)
         sys.stdout.write("\n")
 
-    black = staticmethod(lambda text: Command.write(text, style=color.black))
-    red = staticmethod(lambda text: Command.write(text, style=color.red))
-    green = staticmethod(lambda text: Command.write(text, style=color.green))
-    yellow = staticmethod(lambda text: Command.write(text, style=color.yellow))
-    blue = staticmethod(lambda text: Command.write(text, style=color.blue))
-    magenta = staticmethod(lambda text: Command.write(text, style=color.magenta))
-    cyan = staticmethod(lambda text: Command.write(text, style=color.cyan))
-    white = staticmethod(lambda text: Command.write(text, style=color.white))
-    bold = staticmethod(lambda text: Command.write(text, style=color.bold))
-    faint = staticmethod(lambda text: Command.write(text, style=color.faint))
-    italic = staticmethod(lambda text: Command.write(text, style=color.italic))
-    underline = staticmethod(lambda text: Command.write(text, style=color.underline))
-    blink = staticmethod(lambda text: Command.write(text, style=color.blink))
-    blink2 = staticmethod(lambda text: Command.write(text, style=color.blink2))
-    negative = staticmethod(lambda text: Command.write(text, style=color.negative))
-    concealed = staticmethod(lambda text: Command.write(text, style=color.concealed))
-    crossed = staticmethod(lambda text: Command.write(text, style=color.crossed))
+    def info(self, text):
+        self.write(text, style=self.cyan)
+
+    def success(self, text):
+        self.write(text, style=self.green)
+
+    def warn(self, text):
+        self.write(text, style=self.yellow)
+
+    def danger(self, text):
+        self.write(text, style=self.red)
+
+    def comment(self, text):
+        self.write(text, style=self.italic)
+
+    black = color.black
+    red = color.red
+    green = color.green
+    yellow = color.yellow
+    blue = color.blue
+    magenta = color.magenta
+    cyan = color.cyan
+    white = color.white
+    bold = color.bold
+    faint = color.faint
+    italic = color.italic
+    underline = color.underline
+    blink = color.blink
+    blink2 = color.blink2
+    negative = color.negative
+    concealed = color.concealed
+    crossed = color.crossed
 
 
 class Commander(Command):
@@ -111,8 +126,9 @@ class Commander(Command):
         self._version = version
         self._commands = []
 
-        super(Commander, self).__init__(
-            description=self._description, formatter_class=HelpFormatter
+        super().__init__(
+            description=self._description,
+            formatter_class=HelpFormatter,
         )
         self.prog = color.underline(self.prog)
 
@@ -140,7 +156,7 @@ class Commander(Command):
         try:
             next(it for it in self._commands if it.name == command.name)
             raise CommandError(
-                "A command with name '{}' already exists.".format(command.name)
+                f"A command with name '{command.name}' already exists.",
             )
         except StopIteration:
             pass
@@ -153,7 +169,9 @@ class Commander(Command):
         self.handle(argv, args.command)
 
     def handle(self, argv, command):
-        command_class = next(cmd for cmd in self._commands if cmd.name == command)
+        command_class = next(
+            (cmd for cmd in self._commands if cmd.name == command),
+        )
         description = command_class.description
         prog = "{} {}".format(
             color.underline(self.prog),

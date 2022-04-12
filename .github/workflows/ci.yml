@@ -21,11 +21,11 @@ jobs:
     - name: Cache dependencies
       uses: actions/cache@v2
       with:
-        path: ${{ env.pythonLocation }}
-        key: ${{ env.pythonLocation }}-${{ hashFiles('dev-requirements.txt') }}
+        path: ~/.cache/pypoetry
+        key: ${{ runner.os }}-${{ hashFiles('poetry.lock') }}
 
     - name: Install dependencies
       run: make install
 
     - name: Publish site to the GitHub pages
-      run: make publish
+      run: make gh
