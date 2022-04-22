@@ -9,6 +9,10 @@ class CommandError(Exception):
 
 
 class HelpFormatter(argparse.HelpFormatter):
+    def __init__(self, *args, **kwargs):
+        kwargs.update(max_help_position=32, width=120)
+        super().__init__(*args, **kwargs)
+
     def start_section(self, heading):
         heading = color.bold(heading.upper())
         super().start_section(heading=heading)
@@ -35,7 +39,7 @@ class HelpFormatter(argparse.HelpFormatter):
 class Parser(argparse.ArgumentParser):
     def __init__(self, *args, **kwargs):
         kwargs.update(formatter_class=kwargs.get("formatter_class", HelpFormatter))
-        super().__init__(*args, **kwargs)
+        super(Parser, self).__init__(*args, **kwargs)
 
 
 class Command(object):
@@ -52,6 +56,12 @@ class Command(object):
         self.create()
         return self.parser.parse_args(args)
 
+    def create(self):
+        raise NotImplementedError
+
+    def handle(self, **arguments):
+        raise NotImplementedError
+
     @property
     def parser(self):
         return self._parser
@@ -67,12 +77,6 @@ class Command(object):
     @prog.setter
     def prog(self, value):
         self.parser.prog = value
-
-    def create(self):
-        raise NotImplementedError
-
-    def handle(self, **arguments):
-        raise NotImplementedError
 
     @staticmethod
     def write(text, style=None):
@@ -116,7 +120,7 @@ class Command(object):
 
 
 class Commander(Command):
-    def __init__(self, description="", version=""):
+    def __init__(self, prog=None, description="", version=""):
         if description and version:
             description = "{} {}".format(description, color.green(version))
 
@@ -128,7 +132,7 @@ class Commander(Command):
             description=self._description,
             formatter_class=HelpFormatter,
         )
-        self.prog = color.underline(self.prog)
+        self.prog = color.underline(prog or self.prog)
 
     def create(self):
         command_group = self.parser.add_argument_group("available commands")
@@ -168,7 +172,7 @@ class Commander(Command):
         command_class = next(cmd for cmd in self._commands if cmd.name == command)
         description = command_class.description
         prog = "{} {}".format(
-            color.underline(self.prog),
+            self.prog,
             color.underline(command),
         )
         instance = command_class(prog=prog, description=description)
