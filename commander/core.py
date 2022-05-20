@@ -4,7 +4,15 @@ import sys
 from commander import color
 
 
-class CommandError(Exception):
+class ApplicationError(Exception):
+    pass
+
+
+class CommandError(argparse.ArgumentError):
+    pass
+
+
+class CommandTypeError(argparse.ArgumentTypeError):
     pass
 
 
@@ -27,7 +35,7 @@ class HelpFormatter(argparse.HelpFormatter):
 
         subcommands = getattr(action, "subcommands", list())
         for command in subcommands:
-            description = command.description or ""
+            description = command.description
             _action = argparse.Action(
                 [color.cyan(command.name)],
                 dest="",
@@ -119,20 +127,13 @@ class Command(object):
     crossed = color.crossed
 
 
-class Commander(Command):
-    def __init__(self, prog=None, description="", version=""):
-        if description and version:
-            description = "{} {}".format(description, color.green(version))
-
+class Application(Command):
+    def __init__(self, name=None, description=None):
         self._description = description
-        self._version = version
         self._commands = []
 
-        super().__init__(
-            description=self._description,
-            formatter_class=HelpFormatter,
-        )
-        self.prog = color.underline(prog or self.prog)
+        super().__init__(description=self._description, formatter_class=HelpFormatter)
+        self.prog = color.underline(name or self.prog)
 
     def create(self):
         command_group = self.parser.add_argument_group("available commands")
@@ -143,23 +144,21 @@ class Commander(Command):
         # note: used in HelpFormatter
         setattr(command_action, "subcommands", self._commands)
 
-        self.add_argument(
-            "-v",
-            "--version",
-            action="version",
-            help="show program's version number and exit",
-            version=self._version,
-        )
+    def handle(self, argv, command):
+        command_class = next(cmd for cmd in self._commands if cmd.name == command)
+        description = command_class.description
+        prog = f"{self.prog} {color.underline(command)}"
+        instance = command_class(prog=prog, description=description)
+        arguments = instance.parse_args(argv[2:])
+        instance.handle(**arguments.__dict__)
 
     def register(self, command):
-        if not command.name:
+        if command.name is None:
             command.name = command.__name__.replace("Command", "").lower()
 
-        try:
-            next(it for it in self._commands if it.name == command.name)
-            raise CommandError(f"A command with name '{command.name}' already exists.")
-        except StopIteration:
-            pass
+        found = next((it for it in self._commands if it.name == command.name), None)
+        if found:
+            raise ApplicationError(f"A command with name '{command.name}' already exists.")
 
         self._commands.append(command)
 
@@ -167,14 +166,3 @@ class Commander(Command):
         argv = argv or sys.argv
         args = self.parse_args(argv[1:2])
         self.handle(argv, args.command)
-
-    def handle(self, argv, command):
-        command_class = next(cmd for cmd in self._commands if cmd.name == command)
-        description = command_class.description
-        prog = "{} {}".format(
-            self.prog,
-            color.underline(command),
-        )
-        instance = command_class(prog=prog, description=description)
-        arguments = instance.parse_args(argv[2:])
-        instance.handle(**arguments.__dict__)

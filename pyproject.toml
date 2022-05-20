@@ -4,14 +4,14 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "commander-py"
-version = "0.1.6"
+version = "0.1.7"
 description = "A very simple tool to create beautiful console application by using native argparse."
 authors = ["Özcan Yarımdünya <ozcanyd@gmail.com>"]
 license = "MIT"
-readme = "README.md"
-homepage = "https://ozcanyarimdunya.github.io/commander/"
 repository = "https://github.com/ozcanyarimdunya/commander"
+homepage = "https://ozcanyarimdunya.github.io/commander/"
 documentation = "https://ozcanyarimdunya.github.io/commander/"
+readme = "README.md"
 keywords = ["commander", "argparse"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -25,19 +25,20 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Topic :: Software Development :: Libraries",
 ]
+include = ["LICENCE"]
 packages = [
     { include = "commander" },
 ]
-include = ["LICENCE"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
 
 [tool.poetry.dev-dependencies]
-mkdocs = "^1.3.0"
-mkdocs-material = "^8.2.9"
+mkdocs-material = "^8.2.15"
+pre-commit = "^2.19.0"
 mdx-include = "^1.4.1"
-pre-commit = "^2.18.1"
+pytest = "^7.1.2"
+pytest-cov = "^3.0.0"
 
 [tool.black]
 line_length = 120
@@ -49,3 +50,13 @@ ensure_newline_before_comments = true
 line_length = 120
 force_single_line = true
 force_alphabetical_sort_within_sections = true
+
+[tool.coverage.report]
+skip_covered = true
+show_missing = true
+exclude_lines = [
+    "pragma: no cover"
+]
+omit = [
+    "tests/*"
+]

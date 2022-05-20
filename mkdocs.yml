@@ -4,24 +4,26 @@ site_author: Özcan Yarımdünya
 site_description: Commander
 repo_name: ozcanyarimdunya/commander
 repo_url: https://github.com/ozcanyarimdunya/commander
-copyright: Copyright &copy; 2022 <a href="https://yarimdunya.com" target="_blank">Özcan Yarımdünya<a/>
+
+plugins:
+  - search
 
 theme:
   name: material
   custom_dir: docs/theme
   palette:
-    - scheme: slate
-      primary: black
-      accent: black
-      toggle:
-        icon: material/weather-sunny
-        name: Switch to light mode
     - scheme: default
       primary: indigo
       accent: indigo
       toggle:
         icon: material/weather-night
         name: Switch to dark mode
+    - scheme: slate
+      primary: black
+      accent: black
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
   favicon: assets/images/favicon.ico
   icon:
     logo: svg/favicon
@@ -31,9 +33,6 @@ theme:
     - search.share
     - search.suggest
     - content.tabs.link
-
-plugins:
-  - search
 
 markdown_extensions:
   - admonition

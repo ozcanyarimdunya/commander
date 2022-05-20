@@ -1,32 +1,38 @@
 .PHONY: help
 
 help:
-	@echo "help   : Show this help message"
-	@echo "build  : Build mkdocs"
-	@echo "install: Install dependencies"
-	@echo "lint   : Run server"
-	@echo "serve  : Run pre-commit hooks"
-	@echo "gh     : Deploy to GitHub pages"
-	@echo "pypi   : Deploy to pypi"
+	@echo "help        : Show this help message"
+	@echo "serve-docs  : Run documentation server"
+	@echo "build-docs  : Build mkdocs"
+	@echo "install     : Install dependencies"
+	@echo "lint        : Run pre-commit hooks"
+	@echo "gh-deploy   : Deploy to GitHub pages"
+	@echo "publish-pypi: Deploy to pypi"
+	@echo "test        : Run tests"
 
-build:
+serve-docs:
+	@poetry run mkdocs serve
+
+build-docs:
 	@poetry run mkdocs build
 
 install:
-	@pip install poetry
 	@poetry install
 	@poetry run pre-commit install
 
 lint:
 	@poetry run pre-commit run -a
-serve:
-	@poetry run mkdocs serve
 
-gh:
+gh-deploy:
 	@poetry run mkdocs gh-deploy --clean --force
 
-pypi:
+publish-pypi:
 	@poetry build
+	@poetry config pypi-token.pypi $(PYPI_TOKEN)
+	@poetry publish --dry-run
 	@poetry publish
 	@rm -rf dist
 	@rm -rf *.egg-info
+
+test:
+	@poetry run pytest --cov
