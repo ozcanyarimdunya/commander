@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "commander-py"
-version = "0.1.7"
+version = "0.1.8"
 description = "A very simple tool to create beautiful console application by using native argparse."
 authors = ["Özcan Yarımdünya <ozcanyd@gmail.com>"]
 license = "MIT"

@@ -1,3 +1,4 @@
+import abc
 import argparse
 import sys
 
@@ -50,25 +51,24 @@ class Parser(argparse.ArgumentParser):
         super(Parser, self).__init__(*args, **kwargs)
 
 
-class Command(object):
+class Command(abc.ABC):
     name = None
     description = None
 
     def __init__(self, *args, **kwargs):
         self._parser = Parser(*args, **kwargs)
 
-    def add_argument(self, *args, **kwargs):
-        self.parser.add_argument(*args, **kwargs)
-
     def parse_args(self, args=None):
-        self.create()
+        self.add_arguments(self.parser)
         return self.parser.parse_args(args)
 
-    def create(self):
-        raise NotImplementedError
+    @abc.abstractmethod
+    def add_arguments(self, parser):
+        ...
 
+    @abc.abstractmethod
     def handle(self, **arguments):
-        raise NotImplementedError
+        ...
 
     @property
     def parser(self):
@@ -135,8 +135,8 @@ class Application(Command):
         super().__init__(description=self._description, formatter_class=HelpFormatter)
         self.prog = color.underline(name or self.prog)
 
-    def create(self):
-        command_group = self.parser.add_argument_group("available commands")
+    def add_arguments(self, parser):
+        command_group = parser.add_argument_group("available commands")
         command_action = command_group.add_argument(
             "command",
             choices=[cmd.name for cmd in self._commands],

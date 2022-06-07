@@ -41,10 +41,10 @@ class GreetCommand(Command):
     name = "greet"
     description = "Greet command"
 
-    def create(self):
+    def add_arguments(self, parser):
         """Create your cli arguments here"""
 
-        self.add_argument("-n", "--name", help="Name of sample")
+        parser.add_argument("-n", "--name", help="Name of sample")
 
     def handle(self, **arguments):
         """Do things with your arguments here"""

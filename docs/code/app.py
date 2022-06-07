@@ -8,8 +8,8 @@ class ReverseCommand(Command):
     name = "reverse"
     description = "Reverse a word"
 
-    def create(self):
-        self.add_argument("--word", help="Word to reverse")
+    def add_arguments(self, parser):
+        parser.add_argument("--word", help="Word to reverse")
 
     def handle(self, **arguments):
         word = arguments["word"]
@@ -21,8 +21,8 @@ class CapitalizeCommand(Command):
     name = "capitalize"
     description = "Capitalize a word"
 
-    def create(self):
-        self.add_argument("--word", help="Word to capitalize")
+    def add_arguments(self, parser):
+        parser.add_argument("--word", help="Word to capitalize")
 
     def handle(self, **arguments):
         word = arguments["word"]
@@ -34,8 +34,8 @@ class RandomizeCommand(Command):
     name = "randomize"
     description = "Randomize a word"
 
-    def create(self):
-        self.add_argument("--word", help="Word to randomize")
+    def add_arguments(self, parser):
+        parser.add_argument("--word", help="Word to randomize")
 
     def handle(self, **arguments):
         word = arguments["word"]
